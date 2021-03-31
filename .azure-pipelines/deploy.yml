@@ -1,0 +1,15 @@
+parameters:
+  -
+    name: serviceConnectionName
+    type: string
+  -
+    name: subscriptionId
+    type: string
+  -
+    name: targetEnv
+    type: string
+
+stages:
+  - stage: Police
+    jobs:
+    - job: OwaspZap

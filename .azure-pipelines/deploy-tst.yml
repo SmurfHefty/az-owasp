@@ -1,0 +1,16 @@
+name: deploy-tst • $(TeamProject) • $(BuildDefinitionName) • $(SourceBranchName) • $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  branches:
+    include: ['*']
+    exclude: [master]
+
+pool:
+  vmImage: 'ubuntu-20.04'
+
+stages:
+  - template: deploy.yml
+    parameters:
+      serviceConnectionName: ''
+      subscriptionId: 'efddff6b-cfc8-4995-9e8a-9adf11a23a4d'
+      targetEnv: 'tst'
