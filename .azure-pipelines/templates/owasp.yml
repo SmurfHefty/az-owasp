@@ -1,0 +1,32 @@
+  jobs:
+    - job: OwaspZap
+      steps:
+        - bash: |
+            mkdir $(Build.SourcesDirectory)/owasp
+            docker run -v $(Build.SourcesDirectory)/owasp:/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
+          displayName: Zap Baseline
+
+        - bash: |
+            npm install -g handlebars-cmd
+          displayName: Install tooling
+
+        - bash: |
+            'handlebars owasp/zap_report.json <script/owasp2nunit.hbs>  owasp/results.xml'
+          displayName: Nunit report
+
+        - task: PublishTestResults@2
+          displayName: 'Publish Test Results owasp/results.xml'
+          inputs:
+            testResultsFormat: NUnit
+            testResultsFiles: 'owasp/results.xml'
+
+        - task: CopyFiles@2
+          displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+          inputs:
+            SourceFolder: owasp/
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact: zap-scanner-reports'
+          inputs:
+            ArtifactName: 'zap-scanner-reports'
