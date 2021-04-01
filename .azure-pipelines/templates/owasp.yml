@@ -11,11 +11,11 @@ stages:
     - job: OwaspZap
       steps:
         - bash: |
-            chmod -R 777 ./
+            sudo chmod -R 777 ./
             mkdir $(Build.SourcesDirectory)/owaspzap
-            ls -la
+            pwd && ls -la
             agentFolder=$(Build.SourcesDirectory)/owaspzap
-            'docker run --rm -v $agentFolder/owaspzap:/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html'
+            docker run --rm -v $agentFolder/owaspzap:/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
 
