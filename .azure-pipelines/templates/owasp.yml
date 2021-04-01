@@ -1,3 +1,10 @@
+name: owaspzap-demo • $(TeamProject) • $(BuildDefinitionName) • $(SourceBranchName) • $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-20.04'
+  
   jobs:
     - job: OwaspZap
       steps:
