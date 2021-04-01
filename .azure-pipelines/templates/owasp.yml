@@ -12,7 +12,7 @@ stages:
       steps:
         - bash: |
             mkdir $(Build.SourcesDirectory)/owasp
-            chmod 777 $(Build.SourcesDirectory)/owasp
+            chmod -R 666 $(Build.SourcesDirectory)/owasp
             docker run -v $(Build.SourcesDirectory)/owaspowasp:/zap/wrk:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
           displayName: Zap Baseline
 
