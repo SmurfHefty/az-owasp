@@ -10,38 +10,32 @@ stages:
     jobs:
     - job: OwaspZap
       steps:
-        - task: DockerInstaller@0
-          displayName: Docker Installer
-          inputs:
-            dockerVersion: 17.09.0-ce
-            releaseType: stable
-
         - bash: |
             chmod -R 777 ./
-            mkdir owasp
+            mkdir $(Build.SourcesDirectory)/owaspzap
             ls -la
-            docker run --rm -v $(pwd)/owasp:/zap/wrk:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
+            'docker run --rm -v $(pwd)/owaspzap:/zap/wrk:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html'
           displayName: Zap Baseline
-          workingDirectory:  $(System.DefaultWorkingDirectory)
+          workingDirectory:  $(Build.SourcesDirectory)
 
         - bash: |
             npm install -g handlebars-cmd
           displayName: Install tooling
 
         - bash: |
-            'handlebars owasp/zap_report.json <script/owasp2nunit.hbs>  owasp/results.xml'
+            'handlebars owasp/zap_report.json <script/owasp2nunit.hbs>  owaspzap/results.xml'
           displayName: Nunit report
 
         - task: PublishTestResults@2
           displayName: 'Publish Test Results owasp/results.xml'
           inputs:
             testResultsFormat: NUnit
-            testResultsFiles: 'owasp/results.xml'
+            testResultsFiles: 'owaspzap/results.xml'
 
         - task: CopyFiles@2
           displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
           inputs:
-            SourceFolder:   $(System.DefaultWorkingDirectory)/owasp/
+            SourceFolder:   $(System.DefaultWorkingDirectory)/owaspzap/
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
         - task: PublishBuildArtifacts@1
