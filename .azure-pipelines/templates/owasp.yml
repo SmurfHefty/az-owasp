@@ -10,8 +10,14 @@ stages:
     jobs:
     - job: OwaspZap
       steps:
+        - task: DockerInstaller@0
+          displayName: Docker Installer
+          inputs:
+            dockerVersion: 17.09.0-ce
+            releaseType: stable
+
         - bash: |
-            chmod 777 ./
+            chmod -R 777 ./
             mkdir owasp
             ls -la
             docker run --rm -v $(pwd)/owasp:/zap/wrk:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
