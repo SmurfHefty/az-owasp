@@ -11,8 +11,9 @@ stages:
     - job: OwaspZap
       steps:
         - bash: |
-            mkdir $(Build.SourcesDirectory)/owasp
-            docker run -v $(Build.SourcesDirectory)/owasp:/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
+            mkdir $(Common.TestResultsDirectory)/owasp
+            chmod 777 $(Common.TestResultsDirectory)/owasp
+            'docker run -v $(Common.TestResultsDirectory)/owasp:/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html'
           displayName: Zap Baseline
 
         - bash: |
@@ -32,7 +33,7 @@ stages:
         - task: CopyFiles@2
           displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
           inputs:
-            SourceFolder: owasp/
+            SourceFolder: $(Common.TestResultsDirectory)/owasp/
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
         - task: PublishBuildArtifacts@1
