@@ -11,7 +11,8 @@ stages:
     - job: OwaspZap
       steps:
         - bash: |
-            mkdir $(Build.SourcesDirectory)/owaspzap
+            mkdir $(Build.SourcesDirectory)/owaspzap/zap/wrk
+            chmod 777 -R $(Build.SourcesDirectory)/owaspzap
             docker run --rm -v /home/vsts/work/1/s/owaspzap:/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
