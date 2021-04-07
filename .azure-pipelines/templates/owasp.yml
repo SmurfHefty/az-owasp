@@ -12,7 +12,7 @@ stages:
       steps:
         - bash: |
             mkdir $(Build.SourcesDirectory)/owaspzap
-            docker run --rm --mount source=$(pwd)/owaspzap,target=/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
+            docker run --rm -v /home/vsts/work/1/s/owaspzap:/zap/wrk owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
 
