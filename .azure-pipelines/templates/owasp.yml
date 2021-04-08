@@ -31,7 +31,7 @@ stages:
           displayName: 'Publish Test Results'
           inputs:
             testResultsFormat: NUnit
-            testResultsFiles: 'owaspzap/*'
+            testResultsFiles: 'owaspzap/test-*.xml'
           condition: always()
 
         - task: CopyFiles@2
