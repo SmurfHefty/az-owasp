@@ -13,7 +13,7 @@ stages:
         - bash: |
             mkdir $(Build.SourcesDirectory)/owaspzap
             chmod 777 $(Build.SourcesDirectory)/owaspzap
-            docker run -v $(Build.SourcesDirectory)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
+            docker run -v $(Build.SourcesDirectory)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J report.json -r report.html
             echo $?
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
@@ -23,14 +23,14 @@ stages:
           displayName: Install tooling
 
         - bash: |
-            sudo handlebars owaspzap/zap_report.json < script/owasp2nunit.hbs >  owaspzap/zap_results.xml
+            sudo handlebars owaspzap/report.json < script/owasp2nunit.hbs >  owaspzap/test-results.xml
           displayName: Nunit report
 
         - task: PublishTestResults@2
           displayName: 'Publish Test Results'
           inputs:
             testResultsFormat: NUnit
-            testResultsFiles: 'owaspzap/zap_results.xml'
+            testResultsFiles: 'owaspzap/test-results.xml'
 
         - task: CopyFiles@2
           displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
