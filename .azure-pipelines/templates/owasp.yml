@@ -23,14 +23,14 @@ stages:
           displayName: Install tooling
 
         - bash: |
-            'handlebars owaspzap/zap_report.json <script/owasp2nunit.hbs>  owaspzap/results.xml'
+            'handlebars $(Build.SourcesDirectory)/owaspzap/zap_report.json <$(Build.SourcesDirectory)/script/owasp2nunit.hbs>  $(Build.SourcesDirectory)/owaspzap/zap_results.xml'
           displayName: Nunit report
 
         - task: PublishTestResults@2
-          displayName: 'Publish Test Results owasp/results.xml'
+          displayName: 'Publish Test Results'
           inputs:
             testResultsFormat: NUnit
-            testResultsFiles: 'owaspzap/results.xml'
+            testResultsFiles: '$(Build.SourcesDirectory)/owaspzap/zap_results.xml'
 
         - task: CopyFiles@2
           displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
