@@ -15,7 +15,7 @@ stages:
             chmod 777 $(Build.SourcesDirectory)/owaspzap
             docker run -v $(Build.SourcesDirectory)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
             echo $?
-            displayName: Zap Baseline
+          displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
 
         - bash: |
