@@ -13,7 +13,7 @@ stages:
         - bash: |
             mkdir $(Build.SourcesDirectory)/owaspzap
             chmod 777 $(Build.SourcesDirectory)/owaspzap
-            docker run -v $(Build.SourcesDirectory)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J report.json -r report.html
+            docker run -v $(Build.SourcesDirectory)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-baseline.py -t https://smurf.z6.web.core.windows.net:443 -J report.json -r report.html
             echo $?
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
