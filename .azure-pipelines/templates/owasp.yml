@@ -14,31 +14,35 @@ stages:
             mkdir $(Build.SourcesDirectory)/owaspzap
             chmod 777 $(Build.SourcesDirectory)/owaspzap
             docker run -v $(Build.SourcesDirectory)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-baseline.py -t https://smurf.z6.web.core.windows.net:443 -J report.json -r report.html
-            echo $?
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
 
         - bash: |
             sudo npm install -g handlebars-cmd
           displayName: Install tooling
+          condition: always()
 
         - bash: |
             sudo handlebars owaspzap/report.json < script/owasp2nunit.hbs >  owaspzap/test-results.xml
           displayName: Nunit report
+          condition: always()
 
         - task: PublishTestResults@2
           displayName: 'Publish Test Results'
           inputs:
             testResultsFormat: NUnit
             testResultsFiles: 'owaspzap/test-results.xml'
+          condition: always()
 
         - task: CopyFiles@2
           displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
           inputs:
             SourceFolder:   'owaspzap/'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          condition: always()
 
         - task: PublishBuildArtifacts@1
           displayName: 'Publish Artifact: zap-scanner-reports'
           inputs:
             ArtifactName: 'zap-scanner-reports'
+          condition: always()
