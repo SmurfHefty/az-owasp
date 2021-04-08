@@ -15,15 +15,16 @@ stages:
             chmod 777 $(Build.SourcesDirectory)/owaspzap
             docker run -v $(Build.SourcesDirectory)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
             echo $?
+            ls $(Build.SourcesDirectory)/owaspzap
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
 
         - bash: |
-            npm install handlebars-cmd
+            sudo npm install -g handlebars-cmd
           displayName: Install tooling
 
         - bash: |
-            'handlebars $(Build.SourcesDirectory)/owaspzap/zap_report.json <$(Build.SourcesDirectory)/script/owasp2nunit.hbs>  $(Build.SourcesDirectory)/owaspzap/zap_results.xml'
+            handlebars waspzap/zap_report.json <script/owasp2nunit.hbs>  waspzap/zap_results.xml
           displayName: Nunit report
 
         - task: PublishTestResults@2
