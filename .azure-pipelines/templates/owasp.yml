@@ -12,8 +12,9 @@ stages:
       steps:
         - bash: |
             mkdir $(Build.SourcesDirectory)/owaspzap
+            chmod 777 $(Build.SourcesDirectory)/owaspzap
             id -u root
-            docker run -u 0 --rm -v /home/vsts/work/1/s/owaspzap:/zap/wrk:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
+            docker run -u 0 --rm -v $(pwd)/owaspzap:/zap/wrk:rw owasp/zap2docker-weekly zap-baseline.py -t https://stockholmkiteboard.se:443 -J zap_report.json -r zap_report.html
           displayName: Zap Baseline
           workingDirectory:  $(Build.SourcesDirectory)
 
