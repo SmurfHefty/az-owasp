@@ -31,8 +31,8 @@ stages:
           displayName: 'Publish Test Results'
           inputs:
             testResultsFormat: NUnit
-            testResultsFiles: 'test-*.xml'
-            searchFolder: $(Build.SourcesDirectory)/owaspzap
+            testResultsFiles: '**/test-*.xml'
+            searchFolder: $(Build.SourcesDirectory)/
           condition: always()
 
         - task: CopyFiles@2
