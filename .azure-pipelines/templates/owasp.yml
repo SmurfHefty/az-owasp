@@ -23,7 +23,7 @@ stages:
           condition: always()
 
         - bash: |
-            sudo handlebars owaspzap/report.json < script/owasp2nunit.hbs >  owaspzap/test-results.xml
+            sudo handlebars owaspzap/report.json < script/owasp2nunit.hbs > owaspzap/test-results.xml
           displayName: Nunit report
           condition: always()
 
