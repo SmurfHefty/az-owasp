@@ -24,7 +24,7 @@ stages:
           displayName: Install tooling
 
         - bash: |
-            handlebars waspzap/zap_report.json <script/owasp2nunit.hbs>  waspzap/zap_results.xml
+            sudo handlebars owaspzap/zap_report.json < script/owasp2nunit.hbs >  owaspzap/zap_results.xml
           displayName: Nunit report
 
         - task: PublishTestResults@2
