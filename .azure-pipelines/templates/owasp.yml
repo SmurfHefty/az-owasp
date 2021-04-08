@@ -30,12 +30,12 @@ stages:
           displayName: 'Publish Test Results'
           inputs:
             testResultsFormat: NUnit
-            testResultsFiles: '$(Build.SourcesDirectory)/owaspzap/zap_results.xml'
+            testResultsFiles: 'owaspzap/zap_results.xml'
 
         - task: CopyFiles@2
           displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
           inputs:
-            SourceFolder:   '$(Build.SourcesDirectory)/owaspzap/'
+            SourceFolder:   '$(Build.SourcesDirectory)/owaspzap'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
         - task: PublishBuildArtifacts@1
