@@ -19,7 +19,7 @@ stages:
           workingDirectory:  $(Build.SourcesDirectory)
 
         - bash: |
-            npm install -g handlebars-cmd
+            npm install handlebars-cmd
           displayName: Install tooling
 
         - bash: |
