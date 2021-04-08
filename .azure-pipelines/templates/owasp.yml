@@ -32,7 +32,6 @@ stages:
           inputs:
             testResultsFormat: NUnit
             testResultsFiles: 'owaspzap/test-results.xml'
-            testRunTitle: zap-baseline
           condition: always()
 
         - task: CopyFiles@2
