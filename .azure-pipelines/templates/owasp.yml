@@ -23,7 +23,7 @@ stages:
           displayName: Install tooling
 
         - bash: |
-            'handlebars owasp/zap_report.json <script/owasp2nunit.hbs>  owaspzap/results.xml'
+            'handlebars owaspzap/zap_report.json <script/owasp2nunit.hbs>  owaspzap/results.xml'
           displayName: Nunit report
 
         - task: PublishTestResults@2
