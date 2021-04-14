@@ -2,12 +2,12 @@
    
    <test-run
        id="2"
-       name="Owasp test"
+       name="OWASP ZAP Report"
        start-time="{{../[@generated]}}" >
        <test-suite
            id="{{@index}}"
            type="Assembly"
-           name="{{[@name]}}"
+           name="{{[@host]}}"
            result="Failed"
            failed="{{alerts.length}}">
            <attachments>
@@ -23,6 +23,8 @@
            time="1">
                <failure>
                    <message>
+                       RISK LEVEL: "{{riskdesc}}"
+                       "https://www.zaproxy.org/docs/alerts/{{pluginid}}/"
                        <![CDATA[{{{desc}}}]]>
                    </message>
                    <stack-trace>
